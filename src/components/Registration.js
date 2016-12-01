@@ -3,7 +3,6 @@ import axios from 'axios';
 import validateInput from './Validation.js'
 import TextFieldGroup from './TextFieldGroup.js'
 import {hashHistory} from 'react-router'
-import when from 'when';
 
 const divStyle = {
   margin: "0 0 5px 0"

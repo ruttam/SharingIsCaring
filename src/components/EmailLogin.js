@@ -5,7 +5,6 @@ import validateInput from './LoginValidation.js';
 import {connect} from 'react-redux';
 import {login} from '../actions/AuthActions.js';
 import {auth} from '../actions/AuthActions.js';
-import {cookie} from 'react-cookie';
 
 function mapStateToProps(state){
   //const {eventStore} = state;

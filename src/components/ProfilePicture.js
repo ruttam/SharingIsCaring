@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {cookie} from 'react-cookie';
 
 const divCircle = {
     width: '200px',
@@ -23,7 +22,6 @@ class ProfilePicture extends React.Component {
     // .then((result)=>{
     //   console.log(result);
     // });
-    console.log(cookie);
     this.state = {file: '', filePreview: ''};
   }
 

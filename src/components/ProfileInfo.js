@@ -4,9 +4,7 @@ import validateInput from './Validation.js';
 import {getProfile, setProfile} from '../actions/AuthActions.js';
 import TextFieldGroup from './TextFieldGroup.js';
 import {hashHistory} from 'react-router';
-import when from 'when';
 import {connect} from 'react-redux';
-import cookie from 'react-cookie';
 
 const divStyle = {
   margin: "0 0 5px 0"
@@ -39,7 +37,6 @@ class ProfileInfo extends React.Component {
 
 
     console.log('-----------------', this);
-    console.log(cookie);
     if (!user) {
       return null;
     }
