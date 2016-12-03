@@ -8,7 +8,7 @@ class AlertMessagesList extends React.Component {
     const messages = this.props.messages.map(message =>
       <AlertMessage key={message.id} message={message} deleteAlertMessage={this.props.deleteAlertMessage} />
     );
-    return(
+    return (
       <div>
         {messages}
       </div>

@@ -13,13 +13,15 @@ class AlertMessage extends React.Component {
 
   render() {
     const { id, type, text } = this.props.message;
-    return(
-      <div className={classnames('alert', {
-        'alert-success': type === 'success',
-        'alert-danger': type === 'error'
-      })}>
-        <button onClick={this._onClick} className="close"><span>&times;</span></button>
-        {text}
+    return (
+      <div className="col-lg-6 col-lg-offset-4">
+        <div className={classnames('alert', {
+          'alert-success': type === 'success',
+          'alert-danger': type === 'error'
+        })}>
+          <button onClick={this._onClick} className="close"><span>&times;</span></button>
+          {text}
+        </div>
       </div>
     );
   }

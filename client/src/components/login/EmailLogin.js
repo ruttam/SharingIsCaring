@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
 import TextFieldGroup from '../common/TextFieldGroup.js';
 import validateInput from '../../validations/login.js';
@@ -49,7 +50,7 @@ class EmailLogin extends React.Component {
   }
 
   render() {
-    const hasErrors = !_.isEmpty(this.state.errors);
+    const hasErrors = !isEmpty(this.state.errors);
     const { errors } = this.state;
     console.log('this.state.errors.form: ', this);
     return (

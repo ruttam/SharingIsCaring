@@ -41,7 +41,7 @@ class Registration extends React.Component {
           this.context.router.push('/');
         },
         (err) => {
-          this.setState({ errors: err.message });
+          this.setState({ errors: err.response.data.message });
           this.props.addAlertMessage({
             type: 'error',
             text: this.state.errors
@@ -60,25 +60,6 @@ class Registration extends React.Component {
     return true;
   }
 
-  _checkEmailExists(event) {
-    const field = event.target.name;
-    const value = event.target.value;
-    if(val !== ''){
-      this.props.isEmailExists(value).then(res => {
-          let errors = this.state.errors;
-          let invalid;
-          if(res.data.user) {
-            errors[field] = 'There is user with such ' + field;
-            invalid = true;
-          } else {
-            errors[field] = '';
-            invalid = false;
-          }
-          this.setState({ erros, invalid });
-      });
-    }
-  }
-
   render() {
     const { errors } = this.state;
     return (
@@ -88,7 +69,6 @@ class Registration extends React.Component {
           <TextFieldGroup
             error={errors.email}
             onChange={this._onChange}
-            checkEmailExists={this._checkEmailExists}
             value={this.state.email}
             placeholder="email"
             field="email"
@@ -121,8 +101,7 @@ class Registration extends React.Component {
 
 Registration.propTypes = {
   registrationRequest: React.PropTypes.func.isRequired,
-  addAlertMessage: React.PropTypes.func.isRequired,
-  isEmailExists: React.PropTypes.func.isRequired
+  addAlertMessage: React.PropTypes.func.isRequired
 }
 
 Registration.contextTypes = {

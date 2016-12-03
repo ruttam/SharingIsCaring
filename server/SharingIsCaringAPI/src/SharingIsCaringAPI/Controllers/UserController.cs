@@ -28,7 +28,7 @@ namespace SharingIsCaringAPI.Controllers
                 context.Profiles.Add(profile);
                 context.SaveChanges();
                 Response.StatusCode = (int) HttpStatusCode.OK;
-                return Json(Response);
+                return Json(u);
             }
             else
             {

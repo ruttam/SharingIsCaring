@@ -1,4 +1,4 @@
-import { ADD_ALERT_MESSAGE, DELETE_ALERT_MESSAGE } from './Types.js'
+import { ADD_ALERT_MESSAGE, DELETE_ALERT_MESSAGE } from './Types.js';
 
 export function addAlertMessage(message) {
   return {

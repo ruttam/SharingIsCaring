@@ -1,9 +1,9 @@
 import axios from 'axios';
-import setAuthorizationToken from '../utils/SetAuthorizationToken.js'
+import setAuthorizationToken from '../utils/SetAuthorizationToken.js';
 import jwt from 'jsonwebtoken';
-import { SET_CURRENT_USER } from './Types.js'
+import { SET_CURRENT_USER } from './Types.js';
 
-export function loginRequest(userData, router){
+export function loginRequest(userData, router) {
   return dispatch => {
     return axios.post('http://localhost:5000/api/user/login', userData).then(
       (results) => {
@@ -23,13 +23,13 @@ export function loginRequest(userData, router){
   }
 }
 
-export function facebookLogin(userData, profileData){
+export function facebookLogin(userData, profileData) {
   return dispatch => {
     return axios.get('http://localhost:5000/api/user/facebookLogin', {userData, profileData});
   }
 }
 
-export function getProfile(id){
+export function getProfile(id) {
   return dispatch => {
     return axios.get(`http://localhost:5000/api/user/getProfile/${id}`)
     .then((response) => {
@@ -43,7 +43,7 @@ export function getProfile(id){
   }
 }
 
-export function setProfile(data){
+export function setProfile(data) {
   return dispatch => {
     return axios.post('http://localhost:5000/api/user/setProfile/', data)
     .then((response) => {
@@ -59,4 +59,10 @@ export function setProfile(data){
 //     type: SET_CURRENT_USER,
 //     user
 //   );
+// }
+
+// export function isEmailExists(email) {
+//   return dispatch => {
+//     return axios.get(`http://localhost:5000/api/user/${email}`);
+//   }
 // }
