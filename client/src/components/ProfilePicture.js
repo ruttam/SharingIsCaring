@@ -1,12 +1,17 @@
 import React from 'react';
 import axios from 'axios';
+import classnames from 'classnames';
 
 const divCircle = {
-    width: '200px',
-    height: '200px',
-    background: '#E5E5E5',
-    border: 'thin solid #B7B7B7',
-    borderRadius: '50%'
+  width: '200px',
+  height: '200px',
+  borderRadius: '50%',
+  overflow: 'hidden',
+  background: '#DCDCDC',
+}
+
+const divStyle = {
+  paddingTop: "10px"
 }
 
 class ProfilePicture extends React.Component {
@@ -25,7 +30,7 @@ class ProfilePicture extends React.Component {
     this.state = {file: '', filePreview: ''};
   }
 
-  _handleSubmit(e) {
+  _onSubmit(e) {
     e.preventDefault();
     console.log('Uploading: ', this.state.file);
   }
@@ -49,24 +54,29 @@ class ProfilePicture extends React.Component {
   render() {
     let {filePreview} = this.state;
     let $imagePreview = null;
-    if (filePreview) {
+    //if (filePreview) {
       $imagePreview = (<div style={divCircle}><img style={divCircle} src={filePreview} /></div>);
-    } else {
-      $imagePreview = (<div style={divCircle}><img style={divCircle} src={filePreview} /></div>);
-    }
+    //} else {
+    //  $imagePreview = (<div style={divCircle}><img style={divCircle} src={filePreview} /></div>);
+    //}
 
     return (
       <div className="col-lg-4">
-      <div className="previewComponent">
-        <div className="imgPreview">
-        {$imagePreview}
-        <form onSubmit={(e)=>this._handleSubmit(e)}>
-          <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
-          <button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
-        </form>
-
+        <div className="previewComponent">
+          <div className="imgPreview">
+            {$imagePreview}
+            <div className={ classnames("form-group") }>
+              <form onSubmit={(e)=>this._onSubmit(e)}>
+                <div style={divStyle}>
+                  <input type="file" onChange={(e)=>this._handleImageChange(e)} />
+                </div>
+                <div style={divStyle}>
+                  <button className="btn .btn-primary" type="submit">upload</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     )
   }

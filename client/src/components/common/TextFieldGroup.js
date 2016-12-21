@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextFieldGroup = ({ placeholder, field, divStyle, value, error, type, onChange, checkEmailExists }) => {
+const TextFieldGroup = ({ placeholder, field, value, error, type, onChange, checkEmailExists }) => {
   return (
     <div>
       <input
@@ -8,20 +8,18 @@ const TextFieldGroup = ({ placeholder, field, divStyle, value, error, type, onCh
         name={field}
         value={value}
         onChange={onChange}
+        onBlur={checkEmailExists}
         className="form-control"
-        style = {divStyle}
         placeholder={placeholder}
       />
-      {error && <span>{error}</span>}
     </div>
   );
 }
 
 TextFieldGroup.propTypes = {
-  placeholder: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
   field: React.PropTypes.string.isRequired,
-  value: React.PropTypes.string.isRequired,
-  divStyle: React.PropTypes.object,
+  value: React.PropTypes.string,
   error: React.PropTypes.string,
   type: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,

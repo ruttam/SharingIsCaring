@@ -8,8 +8,8 @@ class App extends React.Component {
 			<div className="wrapper">
 				<Sidebar />
 				<div id="page-content-wrapper">
+					<AlertMessagesList />
 					<div className="container-fluid">
-						<AlertMessagesList />
 						{this.props.children}
 					</div>
 				</div>

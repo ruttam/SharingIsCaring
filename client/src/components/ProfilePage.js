@@ -1,35 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EmailLogin from './EmailLogin.js';
-import FacebookLogin from './FacebookLogin.js';
+import ProfilePicture from './ProfilePicture.js';
+import ProfileInfo from './ProfileInfo.js';
 
 const divStyle = {
+  position: "absolute",
+  top: "30%",
   left: "30%"
 }
 
-class LoginPage extends React.Component {
+class ProfilePage extends React.Component {
   render() {
-    const { isAuthenticated, userId } = this.props.auth;
     const userLinks = (
       <ul className="nav navbar-nav">
-        <li>
-          <a href="#">Logout</a>
-        </li>
+        <li><a href="#">Logout</a></li>
       </ul>
     );
     return (
       <div className="row">
-        <div className="col-lg-8" style={divStyle}>
-          <EmailLogin auth={ isAuthenticated } userId = { userId }/>
-          <FacebookLogin />
+        <div className="col-lg-8 col-lg-offset-3">
+          <div className="row">
+            <ProfilePicture />
+            <ProfileInfo />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-LoginPage.propTypes = {
+ProfilePage.propTypes = {
   auth: React.PropTypes.object.isRequired
 }
 
@@ -46,4 +47,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(ProfilePage);

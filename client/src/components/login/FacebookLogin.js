@@ -79,7 +79,7 @@ class FacebookLogin extends React.Component{
       <div style={divStyle} className="col-lg-6">
       <FBLogin
         appId="1841589546055063"
-        autoLoad={true}
+        autoLoad={false}
         fields="name,email,picture"
         callback={this.responseFacebook}
       />

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SharingIsCaringAPI.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class DateTimetoString : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,9 +15,9 @@ namespace SharingIsCaringAPI.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     about = table.Column<string>(nullable: true),
-                    dateOfBirth = table.Column<DateTime>(nullable: false),
-                    lastLoginDate = table.Column<DateTime>(nullable: false),
-                    lastLoginTime = table.Column<DateTime>(nullable: false),
+                    dateOfBirth = table.Column<string>(nullable: true),
+                    lastLoginDate = table.Column<string>(nullable: true),
+                    lastLoginTime = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     profession = table.Column<string>(nullable: true),
                     surname = table.Column<string>(nullable: true),

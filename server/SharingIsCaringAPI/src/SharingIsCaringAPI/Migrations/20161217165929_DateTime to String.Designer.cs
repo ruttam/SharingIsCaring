@@ -8,8 +8,8 @@ using SharingIsCaringAPI.Models;
 namespace SharingIsCaringAPI.Migrations
 {
     [DbContext(typeof(SharingIsCaringContext))]
-    [Migration("20161201153130_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20161217165929_DateTime to String")]
+    partial class DateTimetoString
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,11 +23,11 @@ namespace SharingIsCaringAPI.Migrations
 
                     b.Property<string>("about");
 
-                    b.Property<DateTime>("dateOfBirth");
+                    b.Property<string>("dateOfBirth");
 
-                    b.Property<DateTime>("lastLoginDate");
+                    b.Property<string>("lastLoginDate");
 
-                    b.Property<DateTime>("lastLoginTime");
+                    b.Property<string>("lastLoginTime");
 
                     b.Property<string>("name");
 

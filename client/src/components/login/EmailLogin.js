@@ -3,15 +3,12 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import axios from 'axios';
 
 import TextFieldGroup from '../common/TextFieldGroup.js';
 import validateInput from '../../validations/login.js';
 import { loginRequest } from '../../actions/AuthActions.js';
-import { auth } from '../../actions/AuthActions.js';
 
-const divStyle = {
-  margin: "0 0 5px 0"
-}
 const verticalLine = {
   borderRight: "thin solid #354c8c"
 }
@@ -36,8 +33,22 @@ class EmailLogin extends React.Component {
     event.preventDefault();
     if(this.isValid()) {
       this.setState({ errors: {} });
-      console.log(this.context.router);
       this.props.dispatch(loginRequest(this.state, this.context.router));
+      //  this.props.loginRequest(this.state, this.context.router).then(
+      //    (results) => {
+      //      console.log(results);
+      //      this.props.setCurrentUser({
+      //        type: SET_CURRENT_USER,
+      //        userId: results.data.user_id
+      //      });
+      //      console.log(this.state.userId);
+      //      this.context.router.push('/profileData');
+      //    },
+      //    (errors) => {
+      //      errors.form = errors.response.data.message;
+      //      this.setState({ errors });
+      //    }
+      //  );
     }
   }
 
@@ -52,39 +63,39 @@ class EmailLogin extends React.Component {
   render() {
     const hasErrors = !isEmpty(this.state.errors);
     const { errors } = this.state;
-    console.log('this.state.errors.form: ', this);
     return (
       <div className="col-lg-6" style={verticalLine}>
-      <h4>login with e-mail</h4>
-      <form onSubmit={this._onSubmit}>
-      <div className={ classnames("form-group", { 'has-error': errors.email }) }>
-      <TextFieldGroup
-      error={errors.email}
-      onChange={this._onChange}
-      value={this.state.email}
-      field="email"
-      placeholder="email"
-      divStyle = {divStyle}
-      />
-      {errors.email && <div className="help-block">{errors.email}</div>}
-      </div>
-      <TextFieldGroup
-      error={errors.password}
-      onChange={this._onChange}
-      value={this.state.password}
-      type="password"
-      field="password"
-      placeholder="password"
-      divStyle = {divStyle}
-      />
-      <input
-      className="btn .btn-primary"
-      type="submit"
-      value="login"
-      style={divStyle}
-      />
-      </form>
-      <Link to="/registration">Dont have an account? Register here!</Link>
+        <h4>login with e-mail</h4>
+        <form onSubmit={this._onSubmit}>
+          { errors.form && <div className="alert alert-danger">{ errors.form }</div> }
+          <div className={ classnames("form-group", { 'has-error': errors.email }) }>
+            <TextFieldGroup
+              error={errors.email}
+              onChange={this._onChange}
+              value={this.state.email}
+              field="email"
+              placeholder="email"
+            />
+            { errors.email && <div className="help-block">{ errors.email }</div> }
+          </div>
+          <div className={ classnames("form-group", { 'has-error': errors.password }) }>
+            <TextFieldGroup
+              error={errors.password}
+              onChange={this._onChange}
+              value={this.state.password}
+              type="password"
+              field="password"
+              placeholder="password"
+            />
+            { errors.password && <div className="help-block">{ errors.password }</div> }
+          </div>
+          <input
+          className="btn .btn-primary"
+          type="submit"
+          value="login"
+          />
+        </form>
+        <Link to="/registration">Dont have an account? Register here!</Link>
       </div>
     );
   }
@@ -94,9 +105,11 @@ EmailLogin.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
-function mapStateToProps(state){
-  //const {eventStore} = state;
-  console.log(state);
+EmailLogin.propTypes = {
+  auth: React.PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
   return state;
 }
 

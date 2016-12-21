@@ -22,11 +22,11 @@ namespace SharingIsCaringAPI.Migrations
 
                     b.Property<string>("about");
 
-                    b.Property<DateTime>("dateOfBirth");
+                    b.Property<string>("dateOfBirth");
 
-                    b.Property<DateTime>("lastLoginDate");
+                    b.Property<string>("lastLoginDate");
 
-                    b.Property<DateTime>("lastLoginTime");
+                    b.Property<string>("lastLoginTime");
 
                     b.Property<string>("name");
 
