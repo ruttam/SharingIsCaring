@@ -11,62 +11,44 @@ export function loginRequest(userData, router) {
     params.append('password', userData.password);
     return axios.post('http://localhost:5000/token', params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(
       (results) => {
-        const token = results.data.token;
+        const token = results.data.access_token;
         localStorage.setItem('jwtToken', token);
-        console.log(results);
-        return axios.post('http://localhost:5000/api/user/login', userData).then(
-          (results) => {
-                  console.log(results);
-                  dispatch({
-                    type: SET_CURRENT_USER,
-                    userId: results.data.user_id
-                  });
-                  router.push('/profileData');
-              },
-                (errors) => {
-                  console.log(errors);
-                  errors.form = errors.response.data.message;
-                  this.setState({ errors });
-                }
-              );
-            },
-              (errors) => {
-                dispatch({
-                  type: ADD_ALERT_MESSAGE,
-                  message: {
-                    type: 'error',
-                    text: errors.response.data
-                  }
-                });
-              }
+        localStorage.setItem('email', userData.email);
+        setAuthorizationToken(token);
+         return axios.post('http://localhost:5000/api/user/login', userData).then(
+           (results) => {
+             localStorage.setItem('currentUserId', results.data.user_id);
+             dispatch({
+               type: SET_CURRENT_USER,
+               currentUserId: results.data.user_id,
+               user: jwt.decode(token)
+             });
+             router.push('/profile');
+           },
+           (errors) => {
+             errors.form = errors.response.data.message;
+             this.setState({ errors });
+           }
+         );
+      },
+      (errors) => {
+        dispatch({
+          type: ADD_ALERT_MESSAGE,
+          message: {
+            type: 'error',
+            text: errors.response.data
+          }
+        });
+      }
     );
-    return axios.post('http://localhost:5000/api/user/login', userData).then(
-      (results) => {
-              console.log(results);
-              dispatch({
-                type: SET_CURRENT_USER,
-                userId: results.data.user_id
-              });
-              router.push('/profileData');
-          },
-            (errors) => {
-              dispatch({
-                type: ADD_ALERT_MESSAGE,
-                message: {
-                  type: 'error',
-                  text: errors.response.data.message
-                }
-              });
-            }
-          );
   }
 }
 
-export function setCurrentUser(userId) {
-  console.log(userId);
+export function setCurrentUser(userId, user) {
   return {
     type: SET_CURRENT_USER,
-    text: userId
+    currentUserId: userId,
+    user
   }
 }
 
@@ -81,37 +63,42 @@ export function facebookLogin(userData, profileData) {
 
 export function getProfile(id) {
   return dispatch => {
-    return axios.get(`http://localhost:5000/api/user/getProfile/${id}`)
-    .then((response) => {
-      console.log(response);
-      dispatch({
-        type: USER_INFO_RECEIVED,
-        userProfile: response.data
-      });
-    }
-  );
-  }
+     return axios.get(`http://localhost:5000/api/user/getProfile/${id}`);
+    // .then((response) => {
+    //   console.log(response);
+    //   dispatch({
+    //     type: USER_INFO_RECEIVED,
+    //     userProfile: response.data,
+    //     currentUserId: id,
+    //     user: localStorage.user
+    //   }
+    //);
+    //}
+  //);
+}
 }
 
 export function setProfile(data) {
   console.log(data);
   return dispatch => {
     return axios.post('http://localhost:5000/api/user/setProfile/', data,
-      { headers: { 'Content-Type': 'application/json' } }
-    ).then((response) => {
-        console.log(response);
-          dispatch({
-            type: ADD_ALERT_MESSAGE,
-            message: {
-              type: 'success',
-              text: 'Your information was saved successfully!'
-            }
-          });
-          dispatch({
-            type: USER_INFO_RECEIVED,
-            userProfile: response.data
-          });
-        }
-      );
+    { headers: { 'Content-Type': 'application/json' } }
+  ).then((response) => {
+    console.log(response);
+    dispatch({
+      type: ADD_ALERT_MESSAGE,
+      message: {
+        type: 'success',
+        text: 'Your information was saved successfully!'
+      }
+    });
+    // dispatch({
+    //   type: USER_INFO_RECEIVED,
+    //   currentUserId: data.user_id,
+    //   user: localStorage.user,
+    //   userProfile: response.data
+    // });
   }
+);
+}
 }

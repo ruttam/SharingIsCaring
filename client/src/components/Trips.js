@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import ProfilePicture from './ProfilePicture.js';
-import ProfileInfo from './ProfileInfo.js';
+import ProfilePicture from './profile/ProfilePicture.js';
+import ProfileInfo from './profile/ProfileInfo.js';
 
 const divStyle = {
   position: "absolute",

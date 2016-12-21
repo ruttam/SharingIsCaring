@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Time from 'react-time';
 import classnames from 'classnames';
 
-import validateInput from '../validations/profile.js';
-import { getProfile, setProfile } from '../actions/AuthActions.js';
-import TextFieldGroup from './common/TextFieldGroup.js';
+import validateInput from '../../validations/profile.js';
+import { getProfile, setProfile } from '../../actions/AuthActions.js';
+import TextFieldGroup from '../common/TextFieldGroup.js';
 
 class ProfileInfo extends React.Component {
   constructor(props) {
@@ -30,17 +30,18 @@ class ProfileInfo extends React.Component {
     this._onSubmit = this._onSubmit.bind(this);
   }
 
-  _onChange(event){
-    this.setState({[event.target.name]: event.target.value});
+  _onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  _onSubmit(event){
+  _onSubmit(event) {
     event.preventDefault();
     let errors = {};
     if(this.isValid(this.state)) {
       this.setState({ errors: {} });
       this.props.dispatch(setProfile(this.state));
     }
+    console.log(this.state);
   }
 
   isValid() {
@@ -51,28 +52,25 @@ class ProfileInfo extends React.Component {
     return isValid;
   }
 
-  componentWillMount(){
-    localStorage.setItem('id', this.props.auth.currentUserId);
-    console.log(this);
-    this.props.dispatch(getProfile(this.props.auth.currentUserId));
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(this.props !== nextProps){
-      this.setState({
-        name:      nextProps.auth.name,
-        surname:   nextProps.auth.surname,
-        telephoneNumber:  nextProps.auth.telephoneNumber,
-        dateOfBirth:  nextProps.auth.dateOfBirth,
-        profession:   nextProps.auth.profession,
-        about:      nextProps.auth.about,
-        lastLoginDate: '',
-        lastLoginTime: '',
-        user_id: nextProps.auth.currentUserId,
-        errors: {},
-        invalid: false
-      });
-    }
+  componentWillMount() {
+    console.log(localStorage);
+    this.props.dispatch(getProfile(localStorage.currentUserId)).then(
+      (response) => {
+        this.setState({
+          name:      response.data.name,
+          surname:   response.data.surname,
+          telephoneNumber:  response.data.telephoneNumber,
+          dateOfBirth:  response.data.dateOfBirth,
+          profession:   response.data.profession,
+          about:      response.data.about,
+          lastLoginDate: '',
+          lastLoginTime: '',
+          user_id: localStorage.currentUserId,
+          errors: {},
+          invalid: false
+        });
+      }
+    );
   }
 
   render() {

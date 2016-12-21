@@ -34,21 +34,6 @@ class EmailLogin extends React.Component {
     if(this.isValid()) {
       this.setState({ errors: {} });
       this.props.dispatch(loginRequest(this.state, this.context.router));
-      //  this.props.loginRequest(this.state, this.context.router).then(
-      //    (results) => {
-      //      console.log(results);
-      //      this.props.setCurrentUser({
-      //        type: SET_CURRENT_USER,
-      //        userId: results.data.user_id
-      //      });
-      //      console.log(this.state.userId);
-      //      this.context.router.push('/profileData');
-      //    },
-      //    (errors) => {
-      //      errors.form = errors.response.data.message;
-      //      this.setState({ errors });
-      //    }
-      //  );
     }
   }
 
