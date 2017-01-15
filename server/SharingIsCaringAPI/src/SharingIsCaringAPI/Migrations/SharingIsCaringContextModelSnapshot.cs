@@ -50,7 +50,7 @@ namespace SharingIsCaringAPI.Migrations
 
                     b.Property<string>("car");
 
-                    b.Property<DateTime>("date");
+                    b.Property<string>("date");
 
                     b.Property<string>("from");
 
@@ -58,7 +58,7 @@ namespace SharingIsCaringAPI.Migrations
 
                     b.Property<string>("passengers");
 
-                    b.Property<DateTime>("time");
+                    b.Property<string>("time");
 
                     b.Property<string>("to");
 

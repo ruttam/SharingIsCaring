@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using SharingIsCaringAPI.Models;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace SharingIsCaringAPI.Controllers
 {
@@ -42,7 +45,7 @@ namespace SharingIsCaringAPI.Controllers
                 context.Profiles.Add(profile);
                 context.SaveChanges();
                 Response.StatusCode = (int) HttpStatusCode.OK;
-                return Json("");
+                return Json(u);
             }
             error.message = "there is a user with such email";
             error.name = "EmailExists";
@@ -61,6 +64,51 @@ namespace SharingIsCaringAPI.Controllers
                 {
                     return Json(context.Profiles.Last(profile => profile.user_id == u.id));
                 }
+            }
+            error.message = "Invalid credentials";
+            error.name = "InvalidForm";
+            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            return Json(error);
+        }
+
+        [HttpGet("api/user/facebookLogin/{email}")]
+        public JsonResult FacebookLogin(string email)
+        {
+            Error error = new Error();
+            if (context.Users.Any(usr => usr.email == email))
+            {
+                User u = context.Users.First(usr => usr.email == email);
+
+                MD5 md5Hash = MD5.Create();
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(email));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                var password = sBuilder.ToString();
+
+                if (BCrypt.Net.BCrypt.Verify(password, u.password))
+                {
+                    return Json(u);
+                }
+            }
+            else
+            {
+                MD5 md5Hash = MD5.Create();
+                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(email));
+                StringBuilder sBuilder = new StringBuilder();
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+                var password = sBuilder.ToString();
+                User u = new User
+                {
+                    email = email,
+                    password = password
+                };
+                return Json(CreateUser(u));
             }
             error.message = "Invalid credentials";
             error.name = "InvalidForm";
@@ -105,10 +153,23 @@ namespace SharingIsCaringAPI.Controllers
             return Json(prof);
         }
 
-        [HttpGet("{id}")]
-         public JsonResult Get(int id)
-         {
-             return Json(context.Users.First(user => user.id == id));
-         }
+        [HttpPost]
+        public JsonResult SetFacebookProfile([FromBody] FacebookProfile profile)
+        {
+            User u = context.Users.First(usr => usr.email == profile.email);
+            Profile prof = context.Profiles.Last(p => p.user_id == u.id);
+            prof.name = profile.name;
+            prof.surname = profile.last_name;
+            prof.telephoneNumber = "";
+            prof.dateOfBirth = "";
+            prof.profession = "";
+            prof.about = "";
+            prof.lastLoginDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            prof.lastLoginTime = DateTime.Now.ToString("HH:mm");
+            prof.user_id = u.id;
+            context.Profiles.Attach(prof);
+            context.SaveChanges();
+            return Json(prof);
+        }
     }
 }

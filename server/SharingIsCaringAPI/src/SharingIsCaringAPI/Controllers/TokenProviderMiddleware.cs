@@ -65,9 +65,9 @@ namespace SharingIsCaringAPI.Controllers
             // You can add other claims here, if you want:
             var claims = new Claim[]
             {
-        new Claim(JwtRegisteredClaimNames.Sub, email),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(JwtRegisteredClaimNames.Iat, now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString(), ClaimValueTypes.Integer64)
             };
 
             // Create the JWT and write it to a string
