@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
       <div className="row">
         <div className="col-lg-8" style={divStyle}>
           <EmailLogin auth={ isAuthenticated } userId = { userId }/>
-          <FacebookLogin />
+          <FacebookLogin auth={ isAuthenticated } userId = { userId }/>
         </div>
       </div>
     );

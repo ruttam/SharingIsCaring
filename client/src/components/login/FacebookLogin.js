@@ -1,5 +1,8 @@
 import React from 'react';
 import FBLogin from 'react-facebook-login';
+import { connect } from 'react-redux';
+
+import { facebookLoginRequest } from '../../actions/AuthActions.js';
 
 const divStyle = {
   padding: "45px 0px 0px 15px"
@@ -8,70 +11,12 @@ const divStyle = {
 class FacebookLogin extends React.Component{
   constructor(props) {
     super(props);
-    // this.FB = this.props.fb;
-    // this.state = {
-    //   message: ""
-    // };
+    this.responseFacebook = this.responseFacebook.bind(this);
   }
-
-  // componentDidMount() {
-  //   this.FB.Event.subscribe('auth.logout', this.onLogout.bind(this));
-  //   this.FB.Event.subscribe('auth.statusChange', function(response){
-  //     console.log("Ok");
-  //     if( response.status === "connected" ) {
-  //       this.FB.api('/me', {message: 'last_name'}, function(response) {
-  //         console.log(response);
-  //         //var message = "Welcome, " + response.last_name;
-  //         self.setState({
-  //           message: message
-  //         });
-  //         alert('Good');
-  //       })
-  //     }
-  //   });
-  // }
-  //
-  // onStatusChange(response) {
-  //   var self = this;
-  //   if( response.status === "connected" ) {
-  //     this.FB.api('/me', {message: 'last_name'}, function(response) {
-  //       console.log(response);
-  //       var message = "Welcome, " + response.last_name;
-  //       self.setState({
-  //         message: message
-  //       });
-  //       alert('Good');
-  //     })
-  //   }
-  //   alert(this.state.message);
-  // }
-  //
-  // onLogout(response) {
-  //   this.setState({
-  //     message: "Logout"
-  //   });
-  // }
-  //
-  // render() {
-  //   let message = this.state.message;
-  //   console.log(message);
-  //   return (
-  //     <div style={divStyle} className="col-lg-4"><h4>login with Facebook</h4>
-  //     <div
-  //       className="fb-login-button"
-  //       data-max-rows="1"
-  //       data-size="xlarge"
-  //       data-show-faces="false"
-  //       data-auto-logout-link="true"
-  //     >
-  //     </div>
-  //     <div>{this.state.message}</div>
-  //     </div>
-  //   );
-  // }
 
   responseFacebook(response){
     console.log(response);
+    this.props.dispatch(facebookLoginRequest(response));
   }
 
   render() {
@@ -80,12 +25,24 @@ class FacebookLogin extends React.Component{
       <FBLogin
         appId="1841589546055063"
         autoLoad={false}
-        fields="name,email,picture"
-        callback={this.responseFacebook}
+        fields="name, first_name, last_name, email"
+        callback={ this.responseFacebook }
       />
       </div>
     )
   }
 }
 
-export default FacebookLogin;
+FacebookLogin.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
+FacebookLogin.propTypes = {
+  auth: React.PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+  return state;
+}
+
+export default connect(mapStateToProps)(FacebookLogin);

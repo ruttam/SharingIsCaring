@@ -2,12 +2,19 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import { logout } from './../actions/AuthActions.js';
+
 const divStyle = {
   position: 'absolute',
   bottom: '10%'
 }
 
 class Sidebar extends React.Component {
+  logout(event){
+    event.preventDefault();
+    this.props.logout();
+  }
+
   render() {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
@@ -22,7 +29,7 @@ class Sidebar extends React.Component {
           <a href="#">my trips</a>
         </li>
         <li>
-          <a href="#">trips</a>
+          <Link to="/trips">trips</Link>
         </li>
         <li>
           <a href="#">about</a>
@@ -35,7 +42,7 @@ class Sidebar extends React.Component {
           <a href="#">Sharing Is Caring</a>
         </li>
         <li>
-          <a href="#">trips</a>
+          <Link to="/trips">trips</Link>
         </li>
         <li>
           <a href="#">about</a>
@@ -50,7 +57,7 @@ class Sidebar extends React.Component {
         <div style={divStyle}>
           <ul className="sidebar-nav">
             <li>
-              { isAuthenticated ? <Link to="/">logout</Link> : <Link to="/">login</Link> }
+              { isAuthenticated ? <a href="#" onClick={ this.logout.bind(this) }>logout</a> : <Link to="/">login</Link> }
             </li>
           </ul>
         </div>
@@ -60,7 +67,8 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-  auth: React.PropTypes.object.isRequired
+  auth: React.PropTypes.object.isRequired,
+  logout: React.PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -69,4 +77,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Sidebar);
+export default connect(mapStateToProps, { logout })(Sidebar);
